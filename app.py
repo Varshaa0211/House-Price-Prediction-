@@ -16,7 +16,7 @@ TotalBsmtSF = st.number_input('Total Basement SF', value=800)
 
 # Prediction button
 if st.button('Predict Price'):
-    input_data = np.array[[OverallQual, GrLivArea, GarageCars, TotalBsmtSF]]
+    input_data = np.array([[OverallQual, GrLivArea, GarageCars, TotalBsmtSF]])
     predicted_price = model.predict(input_data)[0]
     st.success(f'Predicted House Price: ${predicted_price:,.2f}')
 
