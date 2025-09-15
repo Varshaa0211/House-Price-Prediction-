@@ -1,29 +1,22 @@
-
-
 import streamlit as st
 import pandas as pd
-from sklearn.linear_model import LinearRegression
+import joblib
 
-@st.cache
-def load_data():
-    data = pd.read_csv('/content/house_data.csv')
-    return data[['sqft_living', 'price']]
+# Load trained model
+model = joblib.load('house_price_model.pkl')
 
-data = load_data()
+st.title('House Price Prediction')
 
-X = data[['sqft_living']]
-y = data['price']
+# Input fields
+OverallQual = st.number_input('Overall Quality (1-10)', min_value=1, max_value=10, value=5)
+GrLivArea = st.number_input('Above ground living area (sq ft)', value=1500)
+GarageCars = st.number_input('Garage Cars', min_value=0, max_value=5, value=2)
+TotalBsmtSF = st.number_input('Total Basement SF', value=800)
 
-model = LinearRegression()
-model.fit(X, y)
-
-st.title("🏠 House Price Prediction App")
-
-if st.checkbox("Show Sample Data"):
-    st.write(data.head())
-
-sqft = st.number_input("Enter Square Feet:", min_value=500, max_value=10000, value=1000)
-
+# Prediction button
 if st.button('Predict Price'):
-    price = model.predict([[sqft]])
-    st.success(f"Predicted House Price: ${price[0]:,.2f}")
+    input_data = [[OverallQual, GrLivArea, GarageCars, TotalBsmtSF]]
+    predicted_price = model.predict(input_data)[0]
+    st.success(f'Predicted House Price: ${predicted_price:,.2f}')
+
+
