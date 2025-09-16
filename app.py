@@ -1,33 +1,18 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
 import joblib
+import numpy as np
 
-# Load saved model
+# Load model
 model = joblib.load('house_price_model.pkl')
 
-st.title('House Price Prediction App')
+st.title('House Price Prediction')
 
-# Input fields for user
-bedrooms = st.number_input('Bedrooms', min_value=1, max_value=10, value=3)
-bathrooms = st.number_input('Bathrooms', min_value=1.0, max_value=10.0, value=2.0)
-sqft_living = st.number_input('Living Area (sqft)', min_value=300, max_value=10000, value=1500)
-sqft_lot = st.number_input('Lot Size (sqft)', min_value=300, max_value=50000, value=5000)
-floors = st.number_input('Floors', min_value=1.0, max_value=3.5, value=1.0)
-waterfront = st.selectbox('Waterfront (0 = No, 1 = Yes)', [0, 1])
-view = st.number_input('View (0-4)', min_value=0, max_value=4, value=0)
-condition = st.number_input('Condition (1-5)', min_value=1, max_value=5, value=3)
-grade = st.number_input('Grade (1-13)', min_value=1, max_value=13, value=7)
-sqft_above = st.number_input('Sqft Above Ground', min_value=300, max_value=8000, value=1500)
-sqft_basement = st.number_input('Sqft Basement', min_value=0, max_value=5000, value=0)
-yr_built = st.number_input('Year Built', min_value=1900, max_value=2025, value=1990)
-zipcode = st.number_input('Zipcode', min_value=98000, max_value=99999, value=98178)
-lat = st.number_input('Latitude', min_value=47.0, max_value=48.0, value=47.5112)
-long = st.number_input('Longitude', min_value=-123.0, max_value=-121.0, value=-122.257)
+sqft = st.number_input('Enter sqft_living')
+bedrooms = st.number_input('Enter number of bedrooms')
+bathrooms = st.number_input('Enter number of bathrooms')
+floors = st.number_input('Enter number of floors')
 
 if st.button('Predict Price'):
-    input_data = np.array([bedrooms, bathrooms, sqft_living, sqft_lot, floors, waterfront,
-                           view, condition, grade, sqft_above, sqft_basement,
-                           yr_built, zipcode, lat, long]).reshape(1, -1)
-    prediction = model.predict(input_data)
-    st.success(f'Predicted House Price: ${prediction[0]:,.2f}')
+    features = np.array([[sqft, bedrooms, bathrooms, floors]])
+    price = model.predict(features)[0]
+    st.success(f'Predicted House Price: ${price:,.2f}')
