@@ -22,7 +22,3 @@ if st.button('Predict'):
 
 
 
-if st.button('Predict Price'):
-    features = np.array([[sqft, bedrooms, bathrooms, floors]])
-    price = model.predict(features)[0]
-    st.success(f'Predicted House Price: ${price:,.2f}')
