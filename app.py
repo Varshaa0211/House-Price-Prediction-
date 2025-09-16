@@ -12,7 +12,6 @@ bedrooms = st.number_input('Enter bedrooms')
 bathrooms = st.number_input('Enter bathrooms')
 floors = st.number_input('Enter floors')
 feature_5 = st.number_input('Enter feature_5')
-...
 feature_18 = st.number_input('Enter feature_18')
 
 if st.button('Predict'):
