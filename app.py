@@ -1,11 +1,10 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import joblib
 
-# Load model & feature columns
+# Load model and feature columns
 model = joblib.load('house_price_model.pkl')
-feature_columns = joblib.load('feature_columns.pkl')  # we saved this in training
+feature_columns = joblib.load('feature_columns.pkl')
 
 st.title("🏠 House Price Prediction App")
 
@@ -27,9 +26,9 @@ zipcode = st.number_input('Zipcode', min_value=98000, max_value=99999, value=981
 lat = st.number_input('Latitude', min_value=47.0, max_value=48.0, value=47.5112)
 long = st.number_input('Longitude', min_value=-123.0, max_value=-121.0, value=-122.257)
 
-# Predict button
+# Prediction
 if st.button("Predict Price"):
-    # Build input dictionary
+    # Create input dictionary
     input_dict = {
         'bedrooms': bedrooms,
         'bathrooms': bathrooms,
@@ -49,9 +48,9 @@ if st.button("Predict Price"):
         'long': long
     }
 
-    # Convert to DataFrame with same columns as training
+    # Convert to DataFrame with correct column order
     input_df = pd.DataFrame([input_dict], columns=feature_columns)
 
-    # Prediction
+    # Predict price
     prediction = model.predict(input_df)[0]
     st.success(f"Predicted House Price: ${prediction:,.2f}")
