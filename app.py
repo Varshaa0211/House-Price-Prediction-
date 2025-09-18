@@ -48,9 +48,16 @@ if st.button("Predict Price"):
         'long': long
     }
 
-    # Convert to DataFrame with correct column order
-    input_df = pd.DataFrame([input_dict], columns=feature_columns)
+    # Convert to DataFrame
+    input_df = pd.DataFrame([input_dict])
 
-    # Predict price
+    # 🔥 Ensure same columns as training
+    for col in feature_columns:
+        if col not in input_df.columns:
+            input_df[col] = 0  # fill missing features with 0
+
+    input_df = input_df[feature_columns]  # reorder columns
+
+    # Prediction
     prediction = model.predict(input_df)[0]
     st.success(f"Predicted House Price: ${prediction:,.2f}")
